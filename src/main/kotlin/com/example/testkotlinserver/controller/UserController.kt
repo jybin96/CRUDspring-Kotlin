@@ -2,10 +2,7 @@ package com.example.testkotlinserver.controller
 
 import com.example.testkotlinserver.dto.UserDto
 import com.example.testkotlinserver.service.UserService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class UserController (val userService: UserService){
@@ -15,5 +12,10 @@ class UserController (val userService: UserService){
     @PostMapping("/signup")
     fun signUpController(@RequestBody signUpData: UserDto.SignUpRequest): String{
         return userService.signUp(signUpData)
+    }
+
+    @PutMapping("/modify")
+    fun modifiedController(@RequestBody modifiedRequest: UserDto.ModifiedRequest): String{
+        return userService.modifiedUser(modifiedRequest)
     }
 }

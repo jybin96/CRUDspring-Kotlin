@@ -1,5 +1,6 @@
 package com.example.testkotlinserver.model
 
+import com.example.testkotlinserver.dto.UserDto
 import javax.persistence.*
 
 
@@ -11,8 +12,16 @@ class User(
     ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
+    val id: Long? = null
     var userId: String = userId
-    val password: String = password
-    val userNickname: String = userNickname
+    var password: String = password
+    var userNickname: String = userNickname
+
+    fun modifiedUserData(modifiedRequest: UserDto.ModifiedRequest): String {
+        println("${this.userNickname} ${this.password}")
+        this.userNickname = modifiedRequest.changedNickname
+        this.password = modifiedRequest.changedPassword
+        println("${this.userNickname} ${this.password}")
+        return "${this.userId}의 회원 수정이 완료되었습니다."
+    }
 }

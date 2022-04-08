@@ -11,4 +11,10 @@ class UserDto {
         var password: String,
         var userNickname: String
         )
+
+    data class ModifiedRequest(
+        val id: Long,
+        val changedNickname: String,
+        val changedPassword: String
+    )
 }
