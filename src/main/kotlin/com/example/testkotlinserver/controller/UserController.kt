@@ -24,4 +24,9 @@ class UserController (val userService: UserService){
     fun loginController(@RequestBody loginRequest: UserDto.LoginRequest): String {
         return userService.loginService(loginRequest)
     }
+
+    @DeleteMapping("/withdrawal")
+    fun withdrawalController(@RequestBody withdrawalRequest: UserDto.WithdrawalRequest): String{
+        return userService.withdrawalService(withdrawalRequest)
+    }
 }

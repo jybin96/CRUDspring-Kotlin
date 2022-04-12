@@ -4,8 +4,10 @@ import com.example.testkotlinserver.dto.UserDto
 import com.example.testkotlinserver.model.User
 import com.example.testkotlinserver.repository.UserRespository
 import org.springframework.data.crossstore.ChangeSetPersister
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.server.ResponseStatusException
 
 @Service
 class UserService (val userDb: UserRespository){
@@ -26,7 +28,7 @@ class UserService (val userDb: UserRespository){
     @Transactional
     fun modifiedService(modifiedRequest: UserDto.ModifiedRequest): String {
         val user: User = userDb.findById(modifiedRequest.id).orElseThrow {
-            ChangeSetPersister.NotFoundException()
+            ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"회원정보 변경할 유저아이디가 없습니다.")
         }
        return user.modifiedUserData(modifiedRequest)
     }
@@ -44,4 +46,10 @@ class UserService (val userDb: UserRespository){
         return isLogin
     }
 
+    fun withdrawalService(withdrawalRequest: UserDto.WithdrawalRequest): String {
+        userDb.delete(userDb.findById(withdrawalRequest.id).orElseThrow {
+            ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"회원탈퇴할 유저아이디가 없습니다.")
+        })
+        return "회원탈퇴 성공"
+    }
 }

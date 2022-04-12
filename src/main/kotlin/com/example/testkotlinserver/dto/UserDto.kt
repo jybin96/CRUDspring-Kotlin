@@ -22,4 +22,8 @@ class UserDto {
         val userId: String,
         val password: String
     )
+
+    data class WithdrawalRequest(
+        val id: Long
+    )
 }

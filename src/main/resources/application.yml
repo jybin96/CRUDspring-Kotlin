@@ -8,3 +8,6 @@ spring:
     url: jdbc:log4jdbc:h2:mem:testdb
     username: sa
     password:
+server:
+  error:
+    include-message: always
