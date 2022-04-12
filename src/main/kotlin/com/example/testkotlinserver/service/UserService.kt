@@ -4,6 +4,7 @@ import com.example.testkotlinserver.dto.UserDto
 import com.example.testkotlinserver.model.User
 import com.example.testkotlinserver.repository.UserRespository
 import org.springframework.data.crossstore.ChangeSetPersister
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,10 +28,8 @@ class UserService (val userDb: UserRespository){
 
     @Transactional
     fun modifiedService(modifiedRequest: UserDto.ModifiedRequest): String {
-        val user: User = userDb.findById(modifiedRequest.id).orElseThrow {
-            ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"회원정보 변경할 유저아이디가 없습니다.")
-        }
-       return user.modifiedUserData(modifiedRequest)
+        val user: User = userDb.findByIdOrNull(modifiedRequest.id)?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"회원정보 변경할 유저아이디가 없습니다.")
+        return user.modifiedUserData(modifiedRequest)
     }
 
     fun loginService(loginRequest: UserDto.LoginRequest): String {
@@ -47,9 +46,7 @@ class UserService (val userDb: UserRespository){
     }
 
     fun withdrawalService(withdrawalRequest: UserDto.WithdrawalRequest): String {
-        userDb.delete(userDb.findById(withdrawalRequest.id).orElseThrow {
-            ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"회원탈퇴할 유저아이디가 없습니다.")
-        })
+        userDb.delete(userDb.findByIdOrNull(withdrawalRequest.id)?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"회원탈퇴할 유저아이디가 없습니다."))
         return "회원탈퇴 성공"
     }
 }
