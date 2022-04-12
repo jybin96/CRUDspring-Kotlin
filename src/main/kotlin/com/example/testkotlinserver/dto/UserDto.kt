@@ -7,14 +7,19 @@ import lombok.Setter
 @Getter
 class UserDto {
     data class SignUpRequest(
-        var userId: String,
-        var password: String,
-        var userNickname: String
+        val userId: String,
+        val password: String,
+        val userNickname: String
         )
 
     data class ModifiedRequest(
         val id: Long,
         val changedNickname: String,
         val changedPassword: String
+    )
+
+    data class LoginRequest(
+        val userId: String,
+        val password: String
     )
 }
