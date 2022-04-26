@@ -19,7 +19,7 @@ class UserService (val userDb: UserRespository){
         const val SUCCESSFUL_LOGIN = "로그인성공"
     }
 
-
+    @Transactional
     fun signUpService(signUpData: UserDto.SignUpRequest): String{
         val user = User(userId = signUpData.userId, password = signUpData.password, userNickname = signUpData.userNickname)
         userDb.save(user)
@@ -32,6 +32,7 @@ class UserService (val userDb: UserRespository){
         return user.modifiedUserData(modifiedRequest)
     }
 
+    @Transactional
     fun loginService(loginRequest: UserDto.LoginRequest): String {
         val isLogin: String?
         val loginUser: User? = userDb.findByUserId(loginRequest.userId)
@@ -45,6 +46,7 @@ class UserService (val userDb: UserRespository){
         return isLogin
     }
 
+    @Transactional
     fun withdrawalService(withdrawalRequest: UserDto.WithdrawalRequest): String {
         userDb.delete(userDb.findByIdOrNull(withdrawalRequest.id)?: throw ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"회원탈퇴할 유저아이디가 없습니다."))
         return "회원탈퇴 성공"

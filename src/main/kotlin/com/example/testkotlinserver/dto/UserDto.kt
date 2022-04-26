@@ -3,8 +3,7 @@ package com.example.testkotlinserver.dto
 import lombok.Getter
 import lombok.Setter
 
-@Setter
-@Getter
+
 class UserDto {
     data class SignUpRequest(
         val userId: String,

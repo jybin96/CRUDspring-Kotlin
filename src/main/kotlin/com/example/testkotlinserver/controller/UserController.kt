@@ -2,11 +2,12 @@ package com.example.testkotlinserver.controller
 
 import com.example.testkotlinserver.dto.UserDto
 import com.example.testkotlinserver.service.UserService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import kotlin.math.log
 
 @RestController
-class UserController (val userService: UserService){
+class UserController (@Autowired private val userService: UserService){
     @GetMapping("/")
     fun index(): String = "HelloWorld"
 
